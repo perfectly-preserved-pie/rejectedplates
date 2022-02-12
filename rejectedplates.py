@@ -13,7 +13,7 @@ client = tweepy.Client(
 
 # Import the CSV with some special flags to handle weird encoding
 # https://stackoverflow.com/a/61267213
-df = pd.read_csv("/mnt/c/Users/lunar/Downloads/vanity/2013-Maryland.csv") 
+df = pd.read_csv("https://raw.githubusercontent.com/perfectly-preserved-pie/rejectedplates/main/States/2013-Maryland.csv") 
 
 # Refer to the only column that matters
 # https://stackoverflow.com/a/13758846
