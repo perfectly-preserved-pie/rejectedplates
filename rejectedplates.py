@@ -3,16 +3,11 @@ import tweepy
 import time
 
 # Set up Tweepy
-consumer_key = input("Please enter the consumer key:\n")
-consumer_secret = input("Please enter the consumer secret:\n")
-access_token = input("Please enter the access_token:\n")
-access_token_secret = input("Please enter the access_token_secret:\n")
-
 # You can provide the consumer key and secret with the access token and access
 # token secret to authenticate as a user
 client = tweepy.Client(
-    consumer_key=f"{consumer_key}", consumer_secret=f"{consumer_secret}",
-    access_token=f"{access_token}", access_token_secret=f"{access_token_secret}"
+    consumer_key, consumer_secret,
+    access_token, access_token_secret
 )
 
 # Import the CSV with some special flags to handle weird encoding
