@@ -13,6 +13,12 @@ client = tweepy.Client(
     consumer_key=os.getenv('consumer_key'), consumer_secret=os.getenv('consumer_secret'),
     access_token=os.getenv('access_token'), access_token_secret=os.getenv('access_token_secret')
 )
+# authorization of consumer key and consumer secret
+auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+# set access to user's access key and access secret 
+auth.set_access_token(access_token, access_token_secret)
+# calling the api 
+api = tweepy.API(auth)
 
 # Import the CSV with some special flags to handle weird encoding
 # https://stackoverflow.com/a/61267213
@@ -27,8 +33,8 @@ df.sort_values(by='Objectional Vanity Plates', ascending=True, inplace=True)
 
 # Update the bio
 # https://docs.tweepy.org/en/stable/api.html#tweepy.API.update_profile
-description = "A Twitter bot that posts rejected personalized (vanity) license plate requests. Currently working through Maryland's 2013 list of rejected license plates. Made by @lookingstupid."
-client.update_profile(description)
+bio = "A Twitter bot that posts rejected personalized (vanity) license plate requests. Currently working through Maryland's 2013 list of rejected license plates. Made by @lookingstupid."
+api.update_profile(description=bio)
 
 for plate in df.itertuples():
     client.create_tweet(text=plate[1])
