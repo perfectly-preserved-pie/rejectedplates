@@ -1,14 +1,17 @@
 import pandas as pd
 import tweepy
 import time
-from os import environ
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Set up Tweepy
 # You can provide the consumer key and secret with the access token and access
 # token secret to authenticate as a user
 client = tweepy.Client(
-    consumer_key=environ.get('consumer_key'), consumer_secret=environ.get('consumer_secret'),
-    access_token=environ.get('access_token'), access_token_secret=environ.get('access_token_secret')
+    consumer_key=os.getenv('consumer_key'), consumer_secret=os.getenv('consumer_secret'),
+    access_token=os.getenv('access_token'), access_token_secret=os.getenv('access_token_secret')
 )
 
 # Import the CSV with some special flags to handle weird encoding
