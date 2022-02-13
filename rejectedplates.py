@@ -27,8 +27,8 @@ df.sort_values(by='Objectional Vanity Plates', ascending=True, inplace=True)
 
 # Update the bio
 # https://docs.tweepy.org/en/stable/api.html#tweepy.API.update_profile
-bio = "A Twitter bot that posts rejected personalized (vanity) license plate requests. Currently working through Maryland's 2013 list of rejected license plates. Made by @lookingstupid."
-client.update_profile(description=bio)
+description = "A Twitter bot that posts rejected personalized (vanity) license plate requests. Currently working through Maryland's 2013 list of rejected license plates. Made by @lookingstupid."
+client.update_profile(description)
 
 for plate in df.itertuples():
     client.create_tweet(text=plate[1])
