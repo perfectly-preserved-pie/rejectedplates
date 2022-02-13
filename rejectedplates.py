@@ -32,4 +32,3 @@ client.update_profile(description=bio)
 
 for plate in df.itertuples():
     client.create_tweet(text=plate[1])
-    time.sleep(3600) # sleep for one hour
