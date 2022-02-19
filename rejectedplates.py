@@ -49,6 +49,7 @@ for plate in maryland_2013.itertuples():
 massachusetts_2013 = pd.read_csv("https://raw.githubusercontent.com/perfectly-preserved-pie/rejectedplates/main/States/2013-Massachusetts.csv") 
 massachusetts_2013 = massachusetts_2013[['Plate Number']]
 massachusetts_2013.sort_values(by='Plate Number', ascending=True, inplace=True)
+massachusetts_2013["Posted?"] = ''
 api.update_profile(description="A Twitter bot that posts rejected personalized (vanity) license plate requests. Currently working through Massachusetts's 2013 list of rejected license plates. Made by @lookingstupid.")
 for plate in massachusetts_2013.itertuples():
     client.create_tweet(text=plate[1])
@@ -59,6 +60,7 @@ for plate in massachusetts_2013.itertuples():
 newjersey_2013 = pd.read_csv("https://raw.githubusercontent.com/perfectly-preserved-pie/rejectedplates/main/States/2013-NewJersey.csv") 
 newjersey_2013 = newjersey_2013[['OBJ_STRING']]
 newjersey_2013.sort_values(by='OBJ_STRING', ascending=True, inplace=True)
+newjersey_2013["Posted?"] = ''
 api.update_profile(description="A Twitter bot that posts rejected personalized (vanity) license plate requests. Currently working through New Jersey's 2013 list of rejected license plates. Made by @lookingstupid.")
 for plate in newjersey_2013.itertuples():
     client.create_tweet(text=plate[1])
@@ -69,6 +71,7 @@ for plate in newjersey_2013.itertuples():
 newyork_2013 = pd.read_csv("https://raw.githubusercontent.com/perfectly-preserved-pie/rejectedplates/main/States/2013-NewYork.csv") 
 newyork_2013 = newyork_2013[['Requested Plate Configuration']]
 newyork_2013.sort_values(by='Requested Plate Configuration', ascending=True, inplace=True)
+newyork_2013["Posted?"] = ''
 api.update_profile(description="A Twitter bot that posts rejected personalized (vanity) license plate requests. Currently working through New Jersey's 2013 list of rejected license plates. Made by @lookingstupid.")
 for plate in newyork_2013.itertuples():
     client.create_tweet(text=plate[1])
