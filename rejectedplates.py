@@ -39,10 +39,14 @@ maryland_2013["Posted?"] = ''
 api.update_profile(description="A Twitter bot that posts rejected personalized (vanity) license plate requests. Currently working through Maryland's 2013 list of rejected license plates. Made by @lookingstupid.")
 
 for plate in maryland_2013.itertuples():
-    client.create_tweet(text=plate[1])
-    # Update the "Posted?" column for each row
-    # https://www.skytowner.com/explore/updating_a_row_while_iterating_over_the_rows_of_a_dataframe_in_pandas
-    maryland_2013.at[plate.Index, "Posted?"] = 'Yes'
+    if maryland_2013.at[plate.Index, "Posted?"] != 'Yes': # if the plate is not marked as posted already, post it
+        try:
+            client.create_tweet(text=plate[1])
+            # Update the "Posted?" column for each row
+            # https://www.skytowner.com/explore/updating_a_row_while_iterating_over_the_rows_of_a_dataframe_in_pandas
+            maryland_2013.at[plate.Index, "Posted?"] = 'Yes'
+        except tweepy.TweepError as e: # if it fails, update the column to No and add the reason why
+            maryland_2013.at[plate.Index, "Posted?"] = f"No. Error message {e.reason}" # https://linuxtut.com/en/299cccf22d074ad27466/
     time.sleep(3600) # sleep for one hour
 
 ## Massachusetts 2013
