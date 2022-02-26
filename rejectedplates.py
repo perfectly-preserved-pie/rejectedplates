@@ -44,7 +44,7 @@ maryland_2013["Posted?"] = ''
 api.update_profile(description="A Twitter bot that posts rejected personalized (vanity) license plate requests. Currently working through Maryland's 2013 list of rejected license plates. Made by @lookingstupid.")
 
 # Get the most recent 10 tweets
-tweets = client.get_users_tweets(id='1489107102610063363',user_auth=True)
+tweets = client.get_users_tweets(id='1489107102610063363',max_results=100,user_auth=True)
 # Create an empty list 
 tweets_list = []
 # Iterate over the tweets and add the tweet text to the empty list we just created
