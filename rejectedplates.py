@@ -2,9 +2,14 @@ import pandas as pd
 import tweepy
 import time
 import os
+import logging
 from dotenv import load_dotenv
 
 load_dotenv()
+
+# Set up logging to a file
+# https://docs.python.org/3/howto/logging.html#logging-to-a-file
+logging.basicConfig(filename='rejectedplates.log', encoding='utf-8', level=logging.DEBUG)
 
 # Set up Tweepy
 # You can provide the consumer key and secret with the access token and access
@@ -38,16 +43,24 @@ maryland_2013["Posted?"] = ''
 # https://docs.tweepy.org/en/stable/api.html#tweepy.API.update_profile
 api.update_profile(description="A Twitter bot that posts rejected personalized (vanity) license plate requests. Currently working through Maryland's 2013 list of rejected license plates. Made by @lookingstupid.")
 
+# Get the most recent 10 tweets
+tweets = client.get_users_tweets(id='1489107102610063363',user_auth=True)
+# Create an empty list 
+tweets_list = []
+# Iterate over the tweets and add the tweet text to the empty list we just created
+for tweet in tweets.data:
+	tweets_list.append(tweet.text)
+	
 for plate in maryland_2013.itertuples():
-    if maryland_2013.at[plate.Index, "Posted?"] != 'Yes': # if the plate is not marked as posted already, post it
+    # Iterate over the new list. If the license plate we're about to post doesn't already exist, post it to Twitter
+    if plate[1] not in tweets_list:
         try:
             client.create_tweet(text=plate[1])
-            # Update the "Posted?" column for each row
-            # https://www.skytowner.com/explore/updating_a_row_while_iterating_over_the_rows_of_a_dataframe_in_pandas
-            maryland_2013.at[plate.Index, "Posted?"] = 'Yes'
-        except tweepy.TweepError as e: # if it fails, update the column to No and add the reason why
-            maryland_2013.at[plate.Index, "Posted?"] = f"No. Error message {e.reason}" # https://linuxtut.com/en/299cccf22d074ad27466/
-    time.sleep(3600) # sleep for one hour
+            time.sleep(3600) # sleep for one hour
+        except tweepy.TweepError as e: # if it fails, log it and continue on
+            logging.error(f"Couldn't post {plate[1]} because {e.reason}")
+    elif plate[1] in tweets_list:
+        logging.warning(f"{plate[1]} was already tweeted, skipping...")
 
 ## Massachusetts 2013
 massachusetts_2013 = pd.read_csv("https://raw.githubusercontent.com/perfectly-preserved-pie/rejectedplates/main/States/2013-Massachusetts.csv") 
