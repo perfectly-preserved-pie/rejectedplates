@@ -11,6 +11,11 @@ load_dotenv()
 # https://docs.python.org/3/howto/logging.html#logging-to-a-file
 logging.basicConfig(filename='rejectedplates.log', encoding='utf-8', level=logging.DEBUG)
 
+# Enter in Twitter ID
+# https://developer.twitter.com/en/docs/twitter-ids
+# Easy way of looking it up: https://tweeterid.com/
+twitter_id = '1489107102610063363'
+
 # Set up Tweepy
 # You can provide the consumer key and secret with the access token and access
 # token secret to authenticate as a user
@@ -44,7 +49,7 @@ maryland_2013["Posted?"] = ''
 api.update_profile(description="A Twitter bot that posts rejected personalized (vanity) license plate requests. Currently working through Maryland's 2013 list of rejected license plates. Made by @lookingstupid.")
 
 # Get the most recent 10 tweets
-tweets = client.get_users_tweets(id='1489107102610063363',user_auth=True)
+tweets = client.get_users_tweets(id=twitter_id,user_auth=True)
 # Create an empty list 
 tweets_list = []
 # Iterate over the tweets and add the tweet text to the empty list we just created
