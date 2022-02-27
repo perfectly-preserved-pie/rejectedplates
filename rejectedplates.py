@@ -1,11 +1,7 @@
 import pandas as pd
 import tweepy
-import time
-import os
 import logging
-from dotenv import load_dotenv
-
-load_dotenv()
+import os
 
 # Set up logging to a file
 # https://docs.python.org/3/howto/logging.html#logging-to-a-file
@@ -17,16 +13,16 @@ logging.basicConfig(filename='rejectedplates.log', encoding='utf-8', level=loggi
 twitter_id = '1489107102610063363'
 
 # Set up Tweepy
-# You can provide the consumer key and secret with the access token and access
-# token secret to authenticate as a user
+# You can provide the consumer key and secret with the access token and access token secret to authenticate as a user
+# Heroku config vars: https://stackoverflow.com/a/32321268
 client = tweepy.Client(
-	consumer_key=os.getenv('consumer_key'), consumer_secret=os.getenv('consumer_secret'),
-	access_token=os.getenv('access_token'), access_token_secret=os.getenv('access_token_secret')
+	consumer_key=os.environ.get('consumer_key'), consumer_secret=os.environ.get('consumer_secret'),
+	access_token=os.environ.get('access_token'), access_token_secret=os.environ.get('access_token_secret')
 )
 # authorization of consumer key and consumer secret
-auth = tweepy.OAuthHandler(os.getenv('consumer_key'), os.getenv('consumer_secret'))
+auth = tweepy.OAuthHandler(os.environ.get('consumer_key'), os.environ.get('consumer_secret'))
 # set access to user's access key and access secret 
-auth.set_access_token(os.getenv('access_token'), os.getenv('access_token_secret'))
+auth.set_access_token(os.environ.get('access_token'), os.environ.get('access_token_secret'))
 # calling the api 
 api = tweepy.API(auth)
 

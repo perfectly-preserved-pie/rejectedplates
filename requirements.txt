@@ -1,3 +1,2 @@
-pandas
-python-dotenv
-tweepy
+pandas==1.4.1
+tweepy==4.5.0
