@@ -41,9 +41,6 @@ maryland_2013 = maryland_2013[['Objectional Vanity Plates']]
 # Sort the dataframe alphabetically from A to Z
 maryland_2013.sort_values(by='Objectional Vanity Plates', ascending=True, inplace=True)
 
-# Add an empty column so we can keep track of what's been posted
-maryland_2013["Posted?"] = ''
-
 # Update the bio
 # https://docs.tweepy.org/en/stable/api.html#tweepy.API.update_profile
 api.update_profile(description="A Twitter bot that posts rejected personalized (vanity) license plate requests. Currently working through Maryland's 2013 list of rejected license plates. Made by @lookingstupid.")
