@@ -3,10 +3,6 @@ import tweepy
 import logging
 import os
 
-# Set up logging to a file
-# https://docs.python.org/3/howto/logging.html#logging-to-a-file
-logging.basicConfig(filename='rejectedplates.log', encoding='utf-8', level=logging.DEBUG)
-
 # Enter in Twitter ID
 # https://developer.twitter.com/en/docs/twitter-ids
 # Easy way of looking it up: https://tweeterid.com/
@@ -56,6 +52,7 @@ for plate in maryland_2013.itertuples():
 	if plate[1] not in tweets_list:
 		try:
 			client.create_tweet(text=plate[1],place_id=place_id)
+			logging.info(f"{plate[1]} has been tweeted.")
 		except tweepy.TweepError as e: # if it fails, log it and continue on
 			logging.error(f"Couldn't post {plate[1]} because {e.reason}")
 	elif plate[1] in tweets_list:
