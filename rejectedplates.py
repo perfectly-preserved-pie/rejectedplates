@@ -20,8 +20,8 @@ twitter_id = '1489107102610063363'
 # You can provide the consumer key and secret with the access token and access
 # token secret to authenticate as a user
 client = tweepy.Client(
-    consumer_key=os.getenv('consumer_key'), consumer_secret=os.getenv('consumer_secret'),
-    access_token=os.getenv('access_token'), access_token_secret=os.getenv('access_token_secret')
+	consumer_key=os.getenv('consumer_key'), consumer_secret=os.getenv('consumer_secret'),
+	access_token=os.getenv('access_token'), access_token_secret=os.getenv('access_token_secret')
 )
 # authorization of consumer key and consumer secret
 auth = tweepy.OAuthHandler(os.getenv('consumer_key'), os.getenv('consumer_secret'))
@@ -48,24 +48,23 @@ maryland_2013["Posted?"] = ''
 # https://docs.tweepy.org/en/stable/api.html#tweepy.API.update_profile
 api.update_profile(description="A Twitter bot that posts rejected personalized (vanity) license plate requests. Currently working through Maryland's 2013 list of rejected license plates. Made by @lookingstupid.")
 
-# Get the most recent 10 tweets
-tweets = client.get_users_tweets(id=twitter_id,user_auth=True)
-# Create an empty list 
-tweets_list = []
-# Iterate over the tweets and add the tweet text to the empty list we just created
-for tweet in tweets.data:
-	tweets_list.append(tweet.text)
-	
 for plate in maryland_2013.itertuples():
-    # Iterate over the new list. If the license plate we're about to post doesn't already exist, post it to Twitter
-    if plate[1] not in tweets_list:
-        try:
-            client.create_tweet(text=plate[1])
-            time.sleep(3600) # sleep for one hour
-        except tweepy.TweepError as e: # if it fails, log it and continue on
-            logging.error(f"Couldn't post {plate[1]} because {e.reason}")
-    elif plate[1] in tweets_list:
-        logging.warning(f"{plate[1]} was already tweeted, skipping...")
+	# Get the most recent 10 tweets
+	tweets = client.get_users_tweets(id=twitter_id,user_auth=True)
+	# Create an empty list 
+	tweets_list = []
+	# Iterate over the tweets and add the tweet text to the empty list we just created
+	for tweet in tweets.data:
+		tweets_list.append(tweet.text)
+	# Iterate over the new list. If the license plate we're about to post doesn't already exist, post it to Twitter
+	if plate[1] not in tweets_list:
+		try:
+			client.create_tweet(text=plate[1])
+			time.sleep(3600) # sleep for one hour
+		except tweepy.TweepError as e: # if it fails, log it and continue on
+			logging.error(f"Couldn't post {plate[1]} because {e.reason}")
+	elif plate[1] in tweets_list:
+		logging.warning(f"{plate[1]} was already tweeted, skipping...")
 
 ## Massachusetts 2013
 massachusetts_2013 = pd.read_csv("https://raw.githubusercontent.com/perfectly-preserved-pie/rejectedplates/main/States/2013-Massachusetts.csv") 
@@ -74,9 +73,9 @@ massachusetts_2013.sort_values(by='Plate Number', ascending=True, inplace=True)
 massachusetts_2013["Posted?"] = ''
 api.update_profile(description="A Twitter bot that posts rejected personalized (vanity) license plate requests. Currently working through Massachusetts's 2013 list of rejected license plates. Made by @lookingstupid.")
 for plate in massachusetts_2013.itertuples():
-    client.create_tweet(text=plate[1])
-    massachusetts_2013.at[plate.Index, "Posted?"] = 'Yes'
-    time.sleep(3600) # sleep for one hour
+	client.create_tweet(text=plate[1])
+	massachusetts_2013.at[plate.Index, "Posted?"] = 'Yes'
+	time.sleep(3600) # sleep for one hour
 
 ## New Jersey 2013
 newjersey_2013 = pd.read_csv("https://raw.githubusercontent.com/perfectly-preserved-pie/rejectedplates/main/States/2013-NewJersey.csv") 
@@ -85,9 +84,9 @@ newjersey_2013.sort_values(by='OBJ_STRING', ascending=True, inplace=True)
 newjersey_2013["Posted?"] = ''
 api.update_profile(description="A Twitter bot that posts rejected personalized (vanity) license plate requests. Currently working through New Jersey's 2013 list of rejected license plates. Made by @lookingstupid.")
 for plate in newjersey_2013.itertuples():
-    client.create_tweet(text=plate[1])
-    newjersey_2013.at[plate.Index, "Posted?"] = 'Yes'
-    time.sleep(3600) # sleep for one hour
+	client.create_tweet(text=plate[1])
+	newjersey_2013.at[plate.Index, "Posted?"] = 'Yes'
+	time.sleep(3600) # sleep for one hour
 
 ## New York 2013
 newyork_2013 = pd.read_csv("https://raw.githubusercontent.com/perfectly-preserved-pie/rejectedplates/main/States/2013-NewYork.csv") 
@@ -96,6 +95,6 @@ newyork_2013.sort_values(by='Requested Plate Configuration', ascending=True, inp
 newyork_2013["Posted?"] = ''
 api.update_profile(description="A Twitter bot that posts rejected personalized (vanity) license plate requests. Currently working through New Jersey's 2013 list of rejected license plates. Made by @lookingstupid.")
 for plate in newyork_2013.itertuples():
-    client.create_tweet(text=plate[1])
-    newyork_2013.at[plate.Index, "Posted?"] = 'Yes'
-    time.sleep(3600) # sleep for one hour
+	client.create_tweet(text=plate[1])
+	newyork_2013.at[plate.Index, "Posted?"] = 'Yes'
+	time.sleep(3600) # sleep for one hour
