@@ -45,6 +45,9 @@ maryland_2013.sort_values(by='Objectional Vanity Plates', ascending=True, inplac
 # https://docs.tweepy.org/en/stable/api.html#tweepy.API.update_profile
 api.update_profile(description="A Twitter bot that posts rejected personalized (vanity) license plate requests. Currently working through Maryland's 2013 list of rejected license plates. Made by @lookingstupid.")
 
+# Get the place ID so we can geotag the tweet
+place_id = api.search_geo(granularity='admin',query='Maryland')[0].id
+
 for plate in maryland_2013.itertuples():
 	# Get the most recent 10 tweets
 	tweets = client.get_users_tweets(id=twitter_id,user_auth=True)
@@ -56,7 +59,7 @@ for plate in maryland_2013.itertuples():
 	# Iterate over the new list. If the license plate we're about to post doesn't already exist, post it to Twitter
 	if plate[1] not in tweets_list:
 		try:
-			client.create_tweet(text=plate[1])
+			client.create_tweet(text=plate[1],place_id=place_id)
 			time.sleep(3600) # sleep for one hour
 		except tweepy.TweepError as e: # if it fails, log it and continue on
 			logging.error(f"Couldn't post {plate[1]} because {e.reason}")
