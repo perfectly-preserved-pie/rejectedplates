@@ -81,6 +81,7 @@ for plate in maryland_2013.itertuples():
 			post_error_msg = f"Couldn't post {plate[1]} because {e.reason}"
 			logging.error(post_error_msg)
 			bot.send_message(telegram_username, post_error_msg)
+			continue
 	elif plate[1] in tweets_list:
 		post_warning_msg = f"{plate[1]} was already tweeted, skipping..."
 		logging.warning(post_warning_msg)
