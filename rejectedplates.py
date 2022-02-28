@@ -2,6 +2,16 @@ import pandas as pd
 import tweepy
 import logging
 import os
+from telethon import TelegramClient
+
+# Set up Telegram API stuff
+# https://my.telegram.org, under API Development.
+# https://docs.telethon.dev/en/stable/basic/signing-in.html#signing-in-as-a-bot-account
+telegram_username = os.environ.get('telegram_username')
+api_id = os.environ.get('telegram_api_id')
+api_hash = os.environ.get('telegram_api_hash')
+bot_token = os.environ.get('telegram_bot_token')
+bot = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token)
 
 # Enter in Twitter ID
 # https://developer.twitter.com/en/docs/twitter-ids
@@ -45,7 +55,9 @@ for plate in maryland_2013.itertuples():
 		# Get the most recent 10 tweets
 		tweets = client.get_users_tweets(id=twitter_id,user_auth=True)
 	except tweepy.TweepError as e:
-		logging.error(f"Couldn't get the last 10 tweets because {e.reason}")
+		timeline_error_msg = f"Couldn't get the last 10 tweets because {e.reason}"
+		logging.error(timeline_error_msg)
+		bot.send_message(telegram_username, timeline_error_msg) # send a Telegram message
 		continue # Skip this iteration of the for loop and continue to the next one
 	# Create an empty list 
 	tweets_list = []
@@ -57,7 +69,11 @@ for plate in maryland_2013.itertuples():
 		try:
 			client.create_tweet(text=plate[1],place_id=place_id)
 			logging.info(f"{plate[1]} has been tweeted.")
-		except tweepy.TweepError as e: # if it fails, log it and continue on
-			logging.error(f"Couldn't post {plate[1]} because {e.reason}")
+		except tweepy.TweepError as e: # if posting fails, log it and send a Telegram message
+			post_error_msg = f"Couldn't post {plate[1]} because {e.reason}"
+			logging.error(post_error_msg)
+			bot.send_message(telegram_username, post_error_msg)
 	elif plate[1] in tweets_list:
-		logging.warning(f"{plate[1]} was already tweeted, skipping...")
+		post_warning_msg = f"{plate[1]} was already tweeted, skipping..."
+		logging.warning(post_warning_msg)
+		bot.send_message(telegram_username, post_warning_msg)
