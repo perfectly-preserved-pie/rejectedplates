@@ -2,6 +2,7 @@ import pandas as pd
 import tweepy
 import logging
 import os
+import time
 from telethon import TelegramClient
 # https://dev.to/jakewitcher/using-env-files-for-environment-variables-in-python-applications-55a1
 from dotenv import load_dotenv, find_dotenv
@@ -75,6 +76,7 @@ for plate in maryland_2013.itertuples():
 		try:
 			client.create_tweet(text=plate[1],place_id=place_id)
 			logging.info(f"{plate[1]} has been tweeted.")
+			time.sleep(1800)
 		except tweepy.TweepError as e: # if posting fails, log it and send a Telegram message
 			post_error_msg = f"Couldn't post {plate[1]} because {e.reason}"
 			logging.error(post_error_msg)
