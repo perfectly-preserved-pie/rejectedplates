@@ -3,3 +3,4 @@ git
 .out
 outfile
 .session
+.log
