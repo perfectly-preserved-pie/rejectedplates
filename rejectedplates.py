@@ -4,6 +4,9 @@ import logging
 import os
 from telethon import TelegramClient
 
+# Log to a file
+logging.basicConfig(filename='rejectedplates.log', encoding='utf-8', level=logging.DEBUG)
+
 # Set up Telegram API stuff
 # https://my.telegram.org, under API Development.
 # https://docs.telethon.dev/en/stable/basic/signing-in.html#signing-in-as-a-bot-account
