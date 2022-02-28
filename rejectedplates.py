@@ -3,6 +3,9 @@ import tweepy
 import logging
 import os
 from telethon import TelegramClient
+# https://dev.to/jakewitcher/using-env-files-for-environment-variables-in-python-applications-55a1
+from dotenv import load_dotenv
+load_dotenv
 
 # Log to a file
 logging.basicConfig(filename='rejectedplates.log', encoding='utf-8', level=logging.DEBUG)
