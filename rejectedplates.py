@@ -41,8 +41,12 @@ api.update_profile(description="A Twitter bot that posts rejected personalized (
 place_id = api.search_geo(granularity='admin',query='Maryland')[0].id
 
 for plate in maryland_2013.itertuples():
-	# Get the most recent 10 tweets
-	tweets = client.get_users_tweets(id=twitter_id,user_auth=True)
+	try:
+		# Get the most recent 10 tweets
+		tweets = client.get_users_tweets(id=twitter_id,user_auth=True)
+	except tweepy.TweepError as e:
+		logging.error(f"Couldn't get the last 10 tweets because {e.reason}")
+		continue # Skip this iteration of the for loop and continue to the next one
 	# Create an empty list 
 	tweets_list = []
 	# Iterate over the tweets and add the tweet text to the empty list we just created
