@@ -41,14 +41,14 @@ api = tweepy.API(auth)
 
 ## Maryland 2013
 # Import the CSV from GitHub
-maryland_2013 = pd.read_csv("https://raw.githubusercontent.com/perfectly-preserved-pie/rejectedplates/main/States/2013-Maryland.csv") 
+df = pd.read_csv("https://raw.githubusercontent.com/perfectly-preserved-pie/rejectedplates/main/States/2013-Maryland.csv") 
 
 # Refer to the only column that matters
 # https://stackoverflow.com/a/13758846
-maryland_2013 = maryland_2013[['Objectional Vanity Plates']]
+df = df[['Objectional Vanity Plates']]
 
 # Sort the dataframe alphabetically from A to Z
-maryland_2013.sort_values(by='Objectional Vanity Plates', ascending=True, inplace=True)
+df.sort_values(by='Objectional Vanity Plates', ascending=True, inplace=True)
 
 # Update the bio
 # https://docs.tweepy.org/en/stable/api.html#tweepy.API.update_profile
@@ -57,7 +57,7 @@ api.update_profile(description="A Twitter bot that posts rejected personalized (
 # Get the place ID so we can geotag the tweet
 place_id = api.search_geo(granularity='admin',query='Maryland')[0].id
 
-for plate in maryland_2013.itertuples():
+for plate in df.itertuples():
 	try:
 		# Get the most recent 10 tweets
 		tweets = client.get_users_tweets(id=twitter_id,user_auth=True)
