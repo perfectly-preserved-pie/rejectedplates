@@ -52,7 +52,7 @@ df.sort_values(by='Objectional Vanity Plates', ascending=True, inplace=True)
 
 # Update the bio
 # https://docs.tweepy.org/en/stable/api.html#tweepy.API.update_profile
-api.update_profile(description="A Twitter bot that posts rejected personalized (vanity) license plate requests. Currently working through Maryland's 2013 list of rejected license plates. Made by @lookingstupid.")
+api.update_profile(description="A Twitter bot that posts rejected personalized (vanity) license plates. Data is sourced directly from the DMV. Currently working through Maryland's 2013 list.")
 
 # Get the place ID so we can geotag the tweet
 place_id = api.search_geo(granularity='admin',query='Maryland')[0].id
