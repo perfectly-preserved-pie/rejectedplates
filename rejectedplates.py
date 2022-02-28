@@ -13,10 +13,10 @@ logging.basicConfig(filename='rejectedplates.log', encoding='utf-8', level=loggi
 # Set up Telegram API stuff
 # https://my.telegram.org, under API Development.
 # https://docs.telethon.dev/en/stable/basic/signing-in.html#signing-in-as-a-bot-account
-telegram_username = os.environ.get('telegram_username')
-api_id = os.environ.get('telegram_api_id')
-api_hash = os.environ.get('telegram_api_hash')
-bot_token = os.environ.get('telegram_bot_token')
+telegram_username = os.getenv('telegram_username')
+api_id = os.getenv('telegram_api_id')
+api_hash = os.getenv('telegram_api_hash')
+bot_token = os.getenv('telegram_bot_token')
 bot = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token)
 
 # Enter in Twitter ID
@@ -28,13 +28,13 @@ twitter_id = '1489107102610063363'
 # You can provide the consumer key and secret with the access token and access token secret to authenticate as a user
 # Heroku config vars: https://stackoverflow.com/a/32321268
 client = tweepy.Client(
-	consumer_key=os.environ.get('consumer_key'), consumer_secret=os.environ.get('consumer_secret'),
-	access_token=os.environ.get('access_token'), access_token_secret=os.environ.get('access_token_secret')
+	consumer_key=os.getenv('consumer_key'), consumer_secret=os.getenv('consumer_secret'),
+	access_token=os.getenv('access_token'), access_token_secret=os.getenv('access_token_secret')
 )
 # authorization of consumer key and consumer secret
-auth = tweepy.OAuthHandler(os.environ.get('consumer_key'), os.environ.get('consumer_secret'))
+auth = tweepy.OAuthHandler(os.getenv('consumer_key'), os.getenv('consumer_secret'))
 # set access to user's access key and access secret 
-auth.set_access_token(os.environ.get('access_token'), os.environ.get('access_token_secret'))
+auth.set_access_token(os.getenv('access_token'), os.getenv('access_token_secret'))
 # calling the api 
 api = tweepy.API(auth)
 
