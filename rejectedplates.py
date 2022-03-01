@@ -12,6 +12,7 @@ load_dotenv(find_dotenv())
 logging.basicConfig(
 	filename='rejectedplates.log',
 	encoding='utf-8',
+	format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 	datefmt='%Y-%m-%d %I:%M:%S %p',
 	level=logging.INFO)
 
