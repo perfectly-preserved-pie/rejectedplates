@@ -9,7 +9,11 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
 # Log to a file
-logging.basicConfig(filename='rejectedplates.log', encoding='utf-8', level=logging.INFO)
+logging.basicConfig(
+	filename='rejectedplates.log',
+	encoding='utf-8',
+	datefmt='%Y-%m-%d %I:%M:%S %p',
+	level=logging.INFO)
 
 # Set up Telegram API stuff
 # https://my.telegram.org, under API Development.
