@@ -58,7 +58,7 @@ last_known_tweet = 'FKU'
 df = df.iloc[df.index[df['Objectional Vanity Plates']==last_known_tweet].tolist()[0]+1:-1]
 
 # Sort the dataframe alphabetically from A to Z
-df.sort_values(by='Objectional Vanity Plates', ascending=True, inplace=True)
+df.sort_values(by='Objectional Vanity Plates', ascending=False, inplace=True)
 
 # Update the bio
 # https://docs.tweepy.org/en/stable/api.html#tweepy.API.update_profile
