@@ -5,3 +5,8 @@ outfile
 .session
 .log
 .session-journal
+nohup.out
+bot.session
+bot.session-journal
+rejectedplates.log
+
