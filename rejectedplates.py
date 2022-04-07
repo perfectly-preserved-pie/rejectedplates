@@ -69,11 +69,30 @@ place_id = api.search_geo(granularity='admin',query='Maryland')[0].id
 
 for plate in df.itertuples():
 	try:
-		client.create_tweet(text=plate[1],place_id=place_id)
-		logging.info(f"{plate[1]} has been tweeted.")
-		time.sleep(1800)
-	except tweepy.TweepError as e: # if posting fails, log it and send a Telegram message
-		post_error_msg = f"Couldn't post {plate[1]} because {e.reason}"
-		logging.error(post_error_msg)
-		bot.send_message(telegram_username, post_error_msg)
-		continue
+		# Get the most recent 10 tweets
+		tweets = client.get_users_tweets(id=twitter_id,user_auth=True)
+	except tweepy.TweepError as e:
+		timeline_error_msg = f"Couldn't get the last 10 tweets because {e.reason}"
+		logging.error(timeline_error_msg)
+		bot.send_message(telegram_username, timeline_error_msg) # send a Telegram message
+		continue # Skip this iteration of the for loop and continue to the next one
+	# Create an empty list 
+	tweets_list = []
+	# Iterate over the tweets and add the tweet text to the empty list we just created
+	for tweet in tweets.data:
+		tweets_list.append(tweet.text)
+	# Iterate over the new list. If the license plate we're about to post doesn't already exist, post it to Twitter
+	if plate[1] not in tweets_list:
+		try:
+			client.create_tweet(text=plate[1],place_id=place_id)
+			logging.info(f"{plate[1]} has been tweeted.")
+			time.sleep(1800)
+		except tweepy.TweepError as e: # if posting fails, log it and send a Telegram message
+			post_error_msg = f"Couldn't post {plate[1]} because {e.reason}"
+			logging.error(post_error_msg)
+			bot.send_message(telegram_username, post_error_msg)
+			continue
+	elif plate[1] in tweets_list:
+		post_warning_msg = f"{plate[1]} was already tweeted, skipping..."
+		logging.warning(post_warning_msg)
+		bot.send_message(telegram_username, post_warning_msg) 
