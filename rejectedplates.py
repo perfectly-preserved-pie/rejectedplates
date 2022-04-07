@@ -67,20 +67,20 @@ api.update_profile(description="A Twitter bot that posts rejected personalized (
 # Get the place ID so we can geotag the tweet
 place_id = api.search_geo(granularity='admin',query='Maryland')[0].id
 
+# Get the most recent 100 tweets
+try:
+	tweets = client.get_users_tweets(id=twitter_id,user_auth=True,max_results=100)
+except tweepy.TweepError as e:
+	timeline_error_msg = f"Couldn't get the last 10 tweets because {e.reason}"
+	logging.error(timeline_error_msg)
+	bot.send_message(telegram_username, timeline_error_msg) # send a Telegram message
+# Create an empty list 
+tweets_list = []
+# Iterate over the tweets and add the tweet text to the empty list we just created
+for tweet in tweets.data:
+	tweets_list.append(tweet.text)
+
 for plate in df.itertuples():
-	try:
-		# Get the most recent 10 tweets
-		tweets = client.get_users_tweets(id=twitter_id,user_auth=True,max_results=100)
-	except tweepy.TweepError as e:
-		timeline_error_msg = f"Couldn't get the last 10 tweets because {e.reason}"
-		logging.error(timeline_error_msg)
-		bot.send_message(telegram_username, timeline_error_msg) # send a Telegram message
-		continue # Skip this iteration of the for loop and continue to the next one
-	# Create an empty list 
-	tweets_list = []
-	# Iterate over the tweets and add the tweet text to the empty list we just created
-	for tweet in tweets.data:
-		tweets_list.append(tweet.text)
 	# Iterate over the new list. If the license plate we're about to post doesn't already exist, post it to Twitter
 	if plate[1] not in tweets_list:
 		try:
