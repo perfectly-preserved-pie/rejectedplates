@@ -70,7 +70,7 @@ place_id = api.search_geo(granularity='admin',query='Maryland')[0].id
 for plate in df.itertuples():
 	try:
 		# Get the most recent 10 tweets
-		tweets = client.get_users_tweets(id=twitter_id,user_auth=True)
+		tweets = client.get_users_tweets(id=twitter_id,user_auth=True,max_results=100)
 	except tweepy.TweepError as e:
 		timeline_error_msg = f"Couldn't get the last 10 tweets because {e.reason}"
 		logging.error(timeline_error_msg)
