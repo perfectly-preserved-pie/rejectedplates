@@ -1,3 +1,0 @@
-/home/straying/rejectedplates/./rejectedplates.py:93: RuntimeWarning: coroutine 'MessageMethods.send_message' was never awaited
-  bot.send_message(telegram_username, post_warning_msg)
-RuntimeWarning: Enable tracemalloc to get the object allocation traceback
